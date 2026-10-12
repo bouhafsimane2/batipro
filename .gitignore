@@ -1,0 +1,20 @@
+# Dépendances et builds
+node_modules/
+build/
+
+# Secrets et configuration locale
+.env
+.env.*
+!.env.example
+
+# Données générées par le backend (base SQLite, images envoyées)
+backend/data/
+backend/media/uploads/
+
+# Archive d'origine du front
+*.zip
+
+# Divers
+.DS_Store
+npm-debug.log*
+Thumbs.db

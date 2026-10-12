@@ -1,0 +1,43 @@
+# Déploiement Render (offre gratuite) : Render › New › Blueprint › choisir ce dépôt.
+# - batipro-api : API Node.js + Socket.IO (la base SQLite est recréée avec les données de démo à chaque démarrage)
+# - batipro-web : front React servi en site statique
+services:
+  - type: web
+    name: batipro-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm run start:prod
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Mot de passe du compte « admin », généré par Render (visible dans l'onglet Environment)
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      # Adresse du front autorisée (CORS + Socket.IO)
+      - key: CLIENT_ORIGINS
+        fromService:
+          type: web
+          name: batipro-web
+          property: host
+
+  - type: web
+    name: batipro-web
+    runtime: static
+    rootDir: FrontBatirpro-main
+    buildCommand: npm ci && npm run build
+    staticPublishPath: build
+    envVars:
+      # Adresse de l'API utilisée par le front au moment du build
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: batipro-api
+          property: host
+    # Application React avec routes côté client : toutes les URL renvoient index.html
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

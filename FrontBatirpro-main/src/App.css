@@ -1,0 +1,4 @@
+/* Les styles communs sont dans index.css ; ce fichier reste réservé à l'enveloppe de l'application. */
+.App {
+  min-height: 100vh;
+}

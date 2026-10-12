@@ -1,0 +1,107 @@
+.filters {
+  min-width: 0;
+  position: sticky;
+  top: calc(var(--nav-height) + 20px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.filters__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.filters__head h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.filters__reset {
+  border: none;
+  background: none;
+  color: var(--main-color1);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.filters__search {
+  position: relative;
+}
+
+.filters__search svg {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.filters__search .input {
+  padding-left: 38px;
+}
+
+.filters__group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 7px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.chip:hover {
+  border-color: var(--main-color1);
+}
+
+.chip.is-active {
+  background-color: var(--main-color1);
+  border-color: var(--main-color1);
+  color: #fff;
+}
+
+/* Sur mobile, le filtre n'est plus collant et les puces défilent horizontalement */
+@media (max-width: 860px) {
+  .filters {
+    position: static;
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-inline: -16px;
+    padding-inline: 16px;
+    scrollbar-width: none;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    flex-shrink: 0;
+  }
+}

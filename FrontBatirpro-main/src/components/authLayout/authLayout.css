@@ -1,0 +1,162 @@
+.auth {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 100vh;
+  background-color: var(--surface);
+}
+
+/* Visuel de gauche (masqué sur mobile) */
+.auth__visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 40px;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  isolation: isolate;
+}
+
+.auth__visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(21, 25, 30, 0.55) 0%, rgba(21, 25, 30, 0.9) 100%);
+}
+
+.auth__brand {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth__brand span {
+  color: var(--main-color1);
+}
+
+.auth__pitch h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.auth__pitch p {
+  max-width: 420px;
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Formulaire */
+.auth__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px var(--gutter);
+}
+
+.auth__brand--mobile {
+  display: none;
+  color: var(--text);
+}
+
+.auth__card {
+  width: 100%;
+  max-width: 420px;
+}
+
+.auth__card--wide {
+  max-width: 560px;
+}
+
+.auth__card h1 {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.auth__subtitle {
+  margin-top: 6px;
+  margin-bottom: 26px;
+  color: var(--text-muted);
+}
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth__form .btn {
+  margin-top: 6px;
+}
+
+.auth__footer {
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.auth__footer a {
+  color: var(--main-color1);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth__footer a:hover {
+  text-decoration: underline;
+}
+
+/* Champ mot de passe avec bouton afficher/masquer */
+.password-field {
+  position: relative;
+}
+
+.password-field .input {
+  padding-right: 90px;
+}
+
+.password-field button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--main-color1);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .auth {
+    grid-template-columns: 1fr;
+    background-color: var(--bg);
+  }
+
+  .auth__visual {
+    display: none;
+  }
+
+  .auth__brand--mobile {
+    display: block;
+  }
+
+  .auth__panel {
+    justify-content: flex-start;
+    padding-top: 32px;
+  }
+
+  .auth__card {
+    padding: 24px 20px;
+    border-radius: var(--radius);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+}

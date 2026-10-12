@@ -1,0 +1,111 @@
+.pro-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 0;
+}
+
+.pro-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+/* Bandeau orange en diagonale + photo ronde, rappel de la maquette d'origine */
+.pro-card__top {
+  position: relative;
+  height: 112px;
+  margin-bottom: 52px;
+}
+
+.pro-card__top::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--main-color1) 0%, #ff7a2e 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 62%, 0 100%);
+}
+
+.pro-card__top img {
+  position: absolute;
+  left: 50%;
+  bottom: -46px;
+  width: 92px;
+  height: 92px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.pro-card__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  padding: 0 18px 20px;
+  text-align: center;
+}
+
+.pro-card__body h3 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.pro-card__subtitle {
+  color: var(--main-color1);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pro-card__rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 1px;
+  color: #f5a623;
+}
+
+.pro-card__desc {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pro-card__location {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.pro-card__cta {
+  margin-top: auto;
+  padding-top: 10px;
+  color: var(--main-color1);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pro-card:hover .pro-card__cta {
+  text-decoration: underline;
+}

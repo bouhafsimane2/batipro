@@ -1,0 +1,32 @@
+.market {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  align-items: start;
+  gap: 28px;
+}
+
+.market__count {
+  min-height: 24px;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.market__grid {
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+
+@media (max-width: 860px) {
+  .market {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Deux produits par ligne sur téléphone */
+  .market__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
