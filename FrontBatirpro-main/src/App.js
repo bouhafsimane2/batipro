@@ -20,6 +20,7 @@ import Panier from './panier/Panier';
 import Cartafterdone from './cartafterdone/Cartafterdone';
 import Favoris from './favoris/Favoris';
 import Messages from './messages/Messages';
+import Account from './account/Account';
 
 // Espace admin
 import Dashboard from './adimnComponents/dashboard/Dashboard';
@@ -66,6 +67,7 @@ function App() {
           <Route path="/Cartdone" element={<Cartafterdone />} />
           <Route path="/favoris" element={<Favoris />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/compte" element={<Account />} />
 
           {/* Espace admin (protégé par AdminLayout) */}
           <Route path="/admin" element={<Dashboard />} />

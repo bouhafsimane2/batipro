@@ -16,12 +16,20 @@ les matériaux de construction, les artisans qualifiés et les services pour ré
 - Laisser un avis et une note sur un professionnel
 - Envoyer une demande d'embauche à un professionnel
 - Discuter en direct avec les professionnels grâce à la messagerie en ligne
+- Suivre ses commandes et ses demandes d'embauche dans « Mon compte »
 
-### Pour les professionnels
+### Pour les professionnels (Espace pro)
 - Proposer ses services via le formulaire de recrutement
-- Apparaître dans la liste des professionnels après validation
-- Recevoir les demandes d'embauche
+- Suivre l'état de sa candidature et apparaître dans la liste après validation
+- Recevoir les demandes d'embauche et les accepter ou les refuser
+- Modifier sa fiche publique (métiers, ville, présentation, expérience)
+- Consulter ses avis et sa note
 - Échanger avec les clients par messagerie
+
+### Pour les vendeurs (Espace vendeur)
+- Ajouter, modifier et supprimer ses produits, gérer son stock
+- Voir les commandes qui contiennent ses produits
+- Suivre son chiffre d'affaires et ses produits en rupture
 
 ### Pour l'administrateur
 - Tableau de bord avec les chiffres clés

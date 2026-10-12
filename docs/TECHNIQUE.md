@@ -137,6 +137,13 @@ Les admins gèrent les offres depuis l'espace admin › **Offers** (`/adminOffer
 `GET|POST|DELETE /cart/`, `PATCH|DELETE /cart/:productId/` 🔒, `POST /orders/` 🔒, `GET /orders/mine` 🔒,
 `GET /favorites/`, `POST|DELETE /favorites/:productId/` 🔒 (page **Favoris** : `/favoris`, icône cœur de la navbar)
 
+**Espaces personnels** (page `/compte`, contenu selon le rôle) 🔒
+- Client : `GET /orders/mine` (mes commandes), `GET /hires/mine` (demandes d'embauche envoyées)
+- Professionnel : `GET|PATCH /professionals/me` (ma fiche : localisation, présentation, expérience, `metiers` séparés par des virgules),
+  `GET /professionals/me/hires`, `PATCH /professionals/me/hires/:id` (`{ status: "accepted" | "declined" }`)
+- Vendeur : `GET /products/?owner=me` (mes produits), `GET /orders/seller` (commandes contenant mes produits, avec `seller_total`)
+- Tous : `GET|PUT /me/` (mes informations)
+
 **Administration** 👑 — `GET /admin/stats`, `GET /admin/orders/`, `GET|PATCH|DELETE /admin/orders/:id/`,
 `GET /admin/demands/`, `POST /admin/demands/:id/validate/`, `POST /admin/demands/:id/reject/`,
 `DELETE /admin/demands/:id/`, `GET /admin/profiles/?type=professional|market_owner|client`,

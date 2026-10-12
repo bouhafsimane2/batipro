@@ -2,7 +2,7 @@ const express = require('express');
 const { get, all, run, transaction } = require('../db');
 const { HttpError, str } = require('../utils/http');
 const { serializeOrder } = require('../utils/serializers');
-const { authRequired } = require('../middleware/auth');
+const { authRequired, requireRole } = require('../middleware/auth');
 const { cartOf } = require('./cart');
 
 const router = express.Router();
@@ -44,6 +44,34 @@ router.post('/', (req, res) => {
 
 router.get('/mine', (req, res) => {
   res.json(all('SELECT * FROM orders WHERE user_id = ? ORDER BY id DESC', req.user.id).map(serializeOrder));
+});
+
+// Espace vendeur : commandes contenant au moins un de ses produits (seules ses lignes sont renvoyées)
+router.get('/seller', requireRole('market_owner', 'admin'), (req, res) => {
+  const lines = all(
+    `SELECT oi.order_id, oi.product_id, oi.nom, oi.prix, oi.quantity
+     FROM order_items oi JOIN products p ON p.id_produit = oi.product_id
+     WHERE p.owner_id = ? ORDER BY oi.order_id DESC, oi.id`,
+    req.user.id,
+  );
+  const byOrder = new Map();
+  for (const line of lines) {
+    if (!byOrder.has(line.order_id)) byOrder.set(line.order_id, []);
+    byOrder.get(line.order_id).push(line);
+  }
+  const orders = [...byOrder.entries()].map(([orderId, items]) => {
+    const o = get(
+      'SELECT id, full_name, region, cartier, phone, delivery, status, created_at FROM orders WHERE id = ?',
+      orderId,
+    );
+    return {
+      ...o,
+      delivery: Boolean(o.delivery),
+      items,
+      seller_total: items.reduce((s, i) => s + i.prix * i.quantity, 0),
+    };
+  });
+  res.json(orders);
 });
 
 module.exports = { router };

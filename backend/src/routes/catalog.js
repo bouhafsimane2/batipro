@@ -27,6 +27,19 @@ router.post('/order', authRequired, (req, res) => {
   res.status(201).json(createHireRequest(req, profId));
 });
 
+// Demandes d'embauche envoyées par l'utilisateur connecté (espace client)
+router.get('/hires/mine', authRequired, (req, res) => {
+  res.json(all(
+    `SELECT h.id, h.professional_id, h.note, h.status, h.created_at,
+            u.id AS pro_user_id, u.first_name AS pro_first_name, u.last_name AS pro_last_name
+     FROM hire_requests h
+     JOIN professionals p ON p.id = h.professional_id
+     JOIN users u ON u.id = p.user_id
+     WHERE h.client_id = ? ORDER BY h.id DESC`,
+    req.user.id,
+  ));
+});
+
 // Favoris (icône coeur des cartes produit)
 router.get('/favorites', authRequired, (req, res) => {
   const rows = all(

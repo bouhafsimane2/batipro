@@ -104,11 +104,53 @@ router.get('/me', authRequired, (req, res) => {
   res.json(serializeProfessional(row));
 });
 
+// Modification de sa fiche professionnelle (espace pro)
+// Body : { localisation, postal_code, about_me, description_experience, metiers: "Maçon, Carreleur" }
+router.patch('/me', authRequired, (req, res) => {
+  const prof = get('SELECT id FROM professionals WHERE user_id = ?', req.user.id);
+  if (!prof) throw new HttpError(404, "Vous n'avez pas de profil professionnel");
+  const b = req.body;
+
+  transaction(() => {
+    const updates = {};
+    if (b.localisation !== undefined) updates.localisation = str(b.localisation, 200);
+    if (b.postal_code !== undefined) updates.postal_code = str(b.postal_code, 20);
+    if (b.about_me !== undefined) updates.about_me = str(b.about_me);
+    if (b.description_experience !== undefined) updates.description_experience = str(b.description_experience);
+    const fields = Object.keys(updates);
+    if (fields.length) {
+      run(`UPDATE professionals SET ${fields.map((f) => `${f} = ?`).join(', ')} WHERE id = ?`,
+        ...fields.map((f) => updates[f]), prof.id);
+    }
+
+    if (b.metiers !== undefined) {
+      const names = str(b.metiers, 300).split(',').map((s) => s.trim()).filter(Boolean);
+      if (!names.length) throw new HttpError(400, 'Indiquez au moins un métier');
+      // On garde la description existante des métiers conservés
+      const previous = new Map(all(
+        `SELECT m.nom_metier, pm.description FROM professional_metiers pm JOIN metiers m ON m.id_metier = pm.metier_id
+         WHERE pm.professional_id = ?`, prof.id,
+      ).map((r) => [r.nom_metier.toLowerCase(), r.description]));
+      run('DELETE FROM professional_metiers WHERE professional_id = ?', prof.id);
+      for (const nom of names) {
+        run('INSERT OR IGNORE INTO professional_metiers (professional_id, metier_id, description) VALUES (?, ?, ?)',
+          prof.id, metierId(nom.slice(0, 80)), previous.get(nom.toLowerCase()) ?? '');
+      }
+    }
+  });
+
+  res.json(serializeProfessional(getProfessional(prof.id)));
+});
+
+const HIRE_WITH_CLIENT = `
+  SELECT h.*, u.username AS client_username, u.first_name AS client_first_name, u.last_name AS client_last_name
+  FROM hire_requests h LEFT JOIN users u ON u.id = h.client_id`;
+
 // Demandes d'embauche reçues par le professionnel connecté
 router.get('/me/hires', authRequired, (req, res) => {
   const prof = get('SELECT id FROM professionals WHERE user_id = ?', req.user.id);
   if (!prof) throw new HttpError(404, "Vous n'avez pas de profil professionnel");
-  res.json(all('SELECT * FROM hire_requests WHERE professional_id = ? ORDER BY id DESC', prof.id));
+  res.json(all(`${HIRE_WITH_CLIENT} WHERE h.professional_id = ? ORDER BY h.id DESC`, prof.id));
 });
 
 router.patch('/me/hires/:hireId', authRequired, (req, res) => {
@@ -120,7 +162,7 @@ router.patch('/me/hires/:hireId', authRequired, (req, res) => {
     status, requireId(req.params.hireId), prof?.id ?? -1,
   );
   if (!changes) throw new HttpError(404, 'Demande introuvable');
-  res.json(get('SELECT * FROM hire_requests WHERE id = ?', requireId(req.params.hireId)));
+  res.json(get(`${HIRE_WITH_CLIENT} WHERE h.id = ?`, requireId(req.params.hireId)));
 });
 
 function loadVisibleProfessional(req) {

@@ -5,6 +5,7 @@ import { disconnectSocket } from '../../api/socket';
 import { useCartCount } from '../../api/cart';
 import useUnreadCount from '../../messages/useUnreadCount';
 import { CartIcon, CloseIcon, HeartIcon, LogoutIcon, MenuIcon, MessageIcon, UserIcon } from '../icons/Icons';
+import { SPACE_LABELS } from '../../account/shared';
 import './navbar.css';
 
 const LINKS = [
@@ -20,7 +21,10 @@ export function Navbar() {
     const location = useLocation();
     const [open, setOpen] = useState(false);
     const loggedIn = isLoggedIn();
-    const isAdmin = localStorage.getItem('user_type') === 'admin';
+    const role = localStorage.getItem('user_type') || 'client';
+    // Chaque rôle a son espace : admin → /admin, les autres → /compte
+    const spaceLink = role === 'admin' ? '/admin' : '/compte';
+    const spaceLabel = SPACE_LABELS[role] || 'Mon compte';
     const picture = localStorage.getItem('profil_pic');
     const username = localStorage.getItem('username') || '';
     const unread = useUnreadCount();
@@ -64,8 +68,10 @@ export function Navbar() {
                                 <NavLink to={l.to} end={l.end}>{l.label}</NavLink>
                             </li>
                         ))}
-                        {isAdmin && (
-                            <li><NavLink to="/admin">Espace admin</NavLink></li>
+                        {loggedIn && (
+                            <li className="site-nav__space-link">
+                                <NavLink to={spaceLink}>{spaceLabel}</NavLink>
+                            </li>
                         )}
                     </ul>
 
@@ -101,9 +107,9 @@ export function Navbar() {
 
                     {loggedIn ? (
                         <div className="site-nav__account">
-                            <span className="site-nav__avatar" title={username}>
+                            <Link to={spaceLink} className="site-nav__avatar" title={`${spaceLabel} (${username})`} aria-label={spaceLabel}>
                                 {picture ? <img src={picture} alt="" /> : <UserIcon size={18} />}
-                            </span>
+                            </Link>
                             <button type="button" className="site-nav__logout" onClick={handleLogout} title="Se déconnecter">
                                 <LogoutIcon size={18} />
                                 <span>Déconnexion</span>

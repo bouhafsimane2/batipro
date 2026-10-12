@@ -1,0 +1,150 @@
+/* En-tête de l'espace personnel */
+.account-head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px;
+  margin-bottom: 20px;
+  border-top: 4px solid var(--main-color1);
+}
+
+.account-head__avatar {
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--orange-soft);
+  color: var(--main-color1);
+}
+
+.account-head__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-head__space {
+  color: var(--main-color1);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.account-head h1 {
+  font-size: clamp(22px, 3.5vw, 28px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.account-head__role {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Onglets : défilement horizontal sur petit écran */
+.account-tabs {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.account-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.account-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.account-tabs button.is-active .badge {
+  background-color: #fff;
+  color: var(--main-color1);
+}
+
+/* Petits indicateurs chiffrés */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 16px 18px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.stat-mini > span:first-child {
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-mini > span.is-alert {
+  color: var(--danger);
+}
+
+.stat-mini .stars {
+  margin-top: 2px;
+}
+
+/* Message d'information (candidature en attente…) */
+.account-notice {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-left: 4px solid #f5a623;
+  border-radius: var(--radius-sm);
+  background-color: #fff8e6;
+  color: #6b4e00;
+  font-size: 14px;
+}
+
+.account-notice--danger {
+  border-left-color: var(--danger);
+  background-color: #fdecea;
+  color: #8c1d18;
+}
+
+.account-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 14px;
+}
+
+.account-form {
+  max-width: 760px;
+}
+
+/* Listes dans les cellules de tableau (articles, contacts) */
+.cell-list {
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cell-list a {
+  color: inherit;
+}
+
+@media (max-width: 560px) {
+  .account-head {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .account-toolbar .btn {
+    width: 100%;
+  }
+}
