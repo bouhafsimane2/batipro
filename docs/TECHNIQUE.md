@@ -89,7 +89,8 @@ Le fichier [`render.yaml`](../render.yaml) décrit les deux services :
 2. **New › Blueprint**, choisir le dépôt `batipro`, puis **Apply**.
 3. Attendre la fin des deux déploiements, puis ouvrir l'URL de `batipro-web`.
 
-Les adresses des deux services sont reliées automatiquement (`REACT_APP_API_URL`, `CLIENT_ORIGINS`).
+Les adresses publiques des deux services sont écrites dans `render.yaml` (`REACT_APP_API_URL`, `CLIENT_ORIGINS`).
+Si Render attribue d'autres noms (par exemple `batipro-api-xxxx.onrender.com`), il faut les y mettre à jour.
 Le mot de passe du compte `admin` est généré par Render : **batipro-api › Environment › `ADMIN_PASSWORD`**
 (en production, `admin123` est refusé).
 

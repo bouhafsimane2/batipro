@@ -16,12 +16,10 @@ services:
       # Mot de passe du compte « admin », généré par Render (visible dans l'onglet Environment)
       - key: ADMIN_PASSWORD
         generateValue: true
-      # Adresse du front autorisée (CORS + Socket.IO)
+      # Adresse publique du front autorisée (CORS + Socket.IO)
+      # (« fromService … host » donnerait le nom interne du service, pas son URL publique)
       - key: CLIENT_ORIGINS
-        fromService:
-          type: web
-          name: batipro-web
-          property: host
+        value: https://batipro-web.onrender.com
 
   - type: web
     name: batipro-web
@@ -30,12 +28,9 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: build
     envVars:
-      # Adresse de l'API utilisée par le front au moment du build
+      # Adresse publique de l'API, intégrée au front au moment du build
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: batipro-api
-          property: host
+        value: https://batipro-api.onrender.com
     # Application React avec routes côté client : toutes les URL renvoient index.html
     routes:
       - type: rewrite
